@@ -1,40 +1,42 @@
-let ws = new WebSocket("ws://localhost:8081");
+const { webSocket } = rxjs.webSocket;
+const { fromEvent } = rxjs;
+const { map, filter, throttleTime } = rxjs.operators;
+
+let subject = webSocket("ws://localhost:8081");
 let chat = document.querySelector("#chat");
 let user = document.querySelector("#user");
 let message = document.querySelector("#message");
 let disconnect = document.querySelector("#disconnect");
+let getDate = () => new Date().toLocaleTimeString();
 
-ws.onopen = (event) => {
-  let data = "newuser:[connected]" + "\n";
-  ws.send(data);
-};
+subject
+  .pipe(
+    throttleTime(100),
+    filter((event) => event.message.trim().length > 0),
+    map((event) => event.date + " " + event.user + ": " + event.message + "\n")
+  )
+  .subscribe(
+    (message) => chat.innerHTML += message,
+    (message) => subject.next({date: getDate(), user: `${user.value}`, message: "[error]"}),
+    () => {
+      chat.innerHTML = "";
+      user.value = "";
+      message.value = "";
+    }
+  );
+subject.next({date: getDate(), user: "newuser", message: "[connected]"});
 
-ws.onmessage = (event) => {
-  chat.innerHTML += event.data;
-};
-
-ws.onclose = (event) => {
-  chat.innerHTML = "";
-  user.value = "";
-  message.value = "";
-};
-
-ws.onerror = (event) => {
-  let data = `${user.value}:[error:${event}]` + "\n";
-  ws.send(data);
-};
-
-message.addEventListener("keyup", event => {
-  if (event.key === "Enter")
-  {
-    let data = `${user.value}:${message.value}` + "\n";
-    ws.send(data);
+fromEvent(message, "keyup")
+  .pipe(
+    filter((event) => event.key === "Enter")
+  )
+  .subscribe(() => {
+    subject.next({date: getDate(), user: `${user.value}`, message: `${message.value}`});
     message.value = "";
-  }
-});
+  });
 
-disconnect.addEventListener("click", () => {
-  let data = `${user.value}:[disconnected]` + "\n";
-  ws.send(data);
-  ws.close();
-});
+fromEvent(disconnect, "click")
+  .subscribe(() => {
+    subject.next({date: getDate(), user: `${user.value}`, message: "[disconnected]"});
+    subject.complete();
+  });
