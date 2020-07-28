@@ -11,13 +11,11 @@ let getDate = () => new Date().toLocaleTimeString();
 
 subject
   .pipe(
-    throttleTime(100),
-    filter((event) => event.message.trim().length > 0),
     map((event) => event.date + " " + event.user + ": " + event.message + "\n")
   )
   .subscribe(
     (message) => chat.innerHTML += message,
-    (message) => subject.next({date: getDate(), user: `${user.value}`, message: "[error]"}),
+    () => subject.next({date: getDate(), user: `${user.value}`, message: "[error]"}),
     () => {
       chat.innerHTML = "";
       user.value = "";
@@ -28,7 +26,12 @@ subject.next({date: getDate(), user: "newuser", message: "[connected]"});
 
 fromEvent(message, "keyup")
   .pipe(
-    filter((event) => event.key === "Enter")
+    filter((event) => event.key === "Enter"),
+    throttleTime(500)
+  )
+  .pipe(
+    filter(() => `${user.value}`.length > 0),
+    filter(() => `${message.value}`.trim().length > 0)
   )
   .subscribe(() => {
     subject.next({date: getDate(), user: `${user.value}`, message: `${message.value}`});
