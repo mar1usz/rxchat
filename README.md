@@ -14,5 +14,5 @@ A websocket-based chat in JavaScript and RxJS:<br/>
 ```
 
 ## Credits:
-- RxJS by https://rxjs.dev (Apache-2.0 license)
 - ws WebSocket server for Node.js by https://github.com/websockets/ws (MIT license)
+- RxJS by https://rxjs.dev (Apache-2.0 license)
