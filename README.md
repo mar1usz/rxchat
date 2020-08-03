@@ -15,4 +15,4 @@ A websocket-based chat in JavaScript using RxJS:
 
 ## Credits:
 - RxJS by https://rxjs.dev (Apache-2.0 license)
-- ws server for Node.js by https://github.com/websockets/ws (MIT license)
+- ws for Node.js by https://github.com/websockets/ws (MIT license)
