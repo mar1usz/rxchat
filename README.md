@@ -4,13 +4,13 @@ A reactive websocket chat in JavaScript using RxJS:
 
 ## Build and run:
 ```
- npm install
+npm install
 ```
 ```
- npm start
+npm start
 ```
 ```
- npx http-server -o
+npx http-server -o
 ```
 
 ## Credits:
