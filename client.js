@@ -27,11 +27,9 @@ subject.next({date: getDate(), user: "newuser", message: "[connected]"});
 fromEvent(message, "keyup")
   .pipe(
     filter((event) => event.key === "Enter"),
-    throttleTime(100)
-  )
-  .pipe(
     filter(() => `${user.value}`.length > 0),
-    filter(() => `${message.value}`.trim().length > 0)
+    filter(() => `${message.value}`.trim().length > 0),
+    throttleTime(100)
   )
   .subscribe(() => {
     subject.next({date: getDate(), user: `${user.value}`, message: `${message.value}`});
