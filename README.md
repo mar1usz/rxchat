@@ -15,4 +15,5 @@ npx http-server -o
 
 ## Credits:
 - RxJS by https://rxjs.dev (Apache-2.0 license)
-- ws server for Node.js by https://github.com/websockets/ws (MIT license)
+- ws by https://github.com/websockets/ws (MIT license)
+- Node.js by https://nodejs.org (MIT license)
