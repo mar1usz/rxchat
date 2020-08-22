@@ -6,9 +6,9 @@ A reactive websocket chat in JavaScript using RxJS:
 - Node.js 12.18.1
 
 ## Build and run:
-- <pre><code>npm install</code></pre>
-- <pre><code>npm start</code></pre>
-- <pre><code>npx http-server -o</code></pre>
+- `npm install`
+- `npm start`
+- `npx http-server -o`
 
 ## Credits:
 - RxJS by https://rxjs.dev (Apache-2.0 license)
