@@ -22,6 +22,7 @@ subject
       message.value = "";
     }
   );
+
 subject.next({date: getDate(), user: "newuser", message: "[connected]"});
 
 fromEvent(message, "keyup")
