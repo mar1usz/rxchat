@@ -5,7 +5,7 @@ A reactive WebSocket-based chat in JavaScript using RxJS:<br/>![video](https://u
 - Node.js 12.18.4
 
 ## Build and run:
-### Node.js:
+### nodemon:
 - `npm install`
 - `npm start`
 ### live-server:
