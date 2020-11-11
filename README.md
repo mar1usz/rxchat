@@ -13,4 +13,4 @@ A reactive WebSocket-based chat in JavaScript using RxJS and ws:<br/>![video](ht
 
 ## Credits:
 - RxJS by https://rxjs.dev (Apache-2.0 license)
-- ws by https://github.com/websockets/ws (MIT license)
+- ws by https://www.npmjs.com/package/ws (MIT license)
