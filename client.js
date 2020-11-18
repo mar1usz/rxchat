@@ -11,11 +11,14 @@ let getDate = () => new Date().toLocaleTimeString();
 
 subject
   .pipe(
-    map((event) => event.date + " " + event.user + ": " + event.message + "\n")
+    map((event) => `${event.date} ${event.user}: ${event.message}\n`)
   )
   .subscribe(
     (message) => chat.innerHTML += message,
-    () => subject.next({date: getDate(), user: `${user.value}`, message: "[error]"}),
+    () => {
+      subject.next({ date: getDate(), user: `${user.value}`, message: "[error]" });
+      subject.error({ code: 4000, reason: "[error]" });
+    },
     () => {
       chat.innerHTML = "";
       user.value = "";
@@ -23,7 +26,7 @@ subject
     }
   );
 
-subject.next({date: getDate(), user: "newuser", message: "[connected]"});
+subject.next({ date: getDate(), user: "newuser", message: "[connected]" });
 
 fromEvent(message, "keyup")
   .pipe(
@@ -33,12 +36,12 @@ fromEvent(message, "keyup")
     throttleTime(100)
   )
   .subscribe(() => {
-    subject.next({date: getDate(), user: `${user.value}`, message: `${message.value}`});
+    subject.next({ date: getDate(), user: `${user.value}`, message: `${message.value}` });
     message.value = "";
   });
 
 fromEvent(disconnect, "click")
   .subscribe(() => {
-    subject.next({date: getDate(), user: `${user.value}`, message: "[disconnected]"});
+    subject.next({ date: getDate(), user: `${user.value}`, message: "[disconnected]" });
     subject.complete();
   });
