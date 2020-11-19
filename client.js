@@ -15,10 +15,7 @@ subject
   )
   .subscribe(
     (message) => chat.innerHTML += message,
-    () => {
-      subject.next({ date: getDate(), user: `${user.value}`, message: "[error]" });
-      subject.error({ code: 4000, reason: "[error]" });
-    },
+    () => subject.error({ code: 4000, reason: "[error]" }),
     () => {
       chat.innerHTML = "";
       user.value = "";
