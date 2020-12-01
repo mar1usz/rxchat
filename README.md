@@ -6,11 +6,12 @@ A reactive WebSocket-based chat in JavaScript (Node.js and the browser) using ws
 
 ## Build and run:
 ### nodemon:
+- `npm update`
 - `npm install`
 - `npm start`
 ### live-server:
 - `npx live-server`
 
 ## Credits:
-- ws by https://www.npmjs.com/package/ws (MIT license)
 - RxJS by https://rxjs.dev (Apache-2.0 license)
+- ws by https://www.npmjs.com/package/ws (MIT license)
