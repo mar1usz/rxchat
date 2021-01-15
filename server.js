@@ -1,5 +1,5 @@
-let WebSocket = require('ws');
-let wss = new WebSocket.Server({ port: 8081 });
+const WebSocket = require('ws');
+const wss = new WebSocket.Server({ port: 8081 });
 
 wss.on('connection', (ws) => {
   ws.on('message', (data) => {

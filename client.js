@@ -2,12 +2,12 @@ const { webSocket } = rxjs.webSocket;
 const { fromEvent } = rxjs;
 const { map, filter, throttleTime } = rxjs.operators;
 
-let subject = webSocket("ws://localhost:8081");
-let chat = document.querySelector("#chat");
-let user = document.querySelector("#user");
-let message = document.querySelector("#message");
-let disconnect = document.querySelector("#disconnect");
-let getDate = () => new Date().toLocaleTimeString();
+const subject = webSocket("ws://localhost:8081");
+const chat = document.querySelector("#chat");
+const user = document.querySelector("#user");
+const message = document.querySelector("#message");
+const disconnect = document.querySelector("#disconnect");
+const getDate = () => new Date().toLocaleTimeString();
 
 subject
   .pipe(
