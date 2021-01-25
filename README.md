@@ -10,7 +10,7 @@ A reactive WebSocket-based chat in JavaScript (Node.js and the browser) using ws
 - `npm install`
 - `npm start`
 ### live-server:
-- `npx live-server`
+- `npx live-server client`
 
 ## Credits:
 - ws by https://www.npmjs.com/package/ws (MIT license)
