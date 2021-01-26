@@ -7,7 +7,7 @@ const chat = document.querySelector("#chat");
 const user = document.querySelector("#user");
 const message = document.querySelector("#message");
 const disconnect = document.querySelector("#disconnect");
-import { getDate } from "./utils.js";
+import { getDate, getString } from "./dateUtils.js";
 
 const clearEverything = function () {
   chat.innerHTML = "";
@@ -31,7 +31,7 @@ const wsSubject = webSocket({
 
 wsSubject
   .pipe( // project new message from server
-    map(event => `${event.date} ${event.user}: ${event.message}\n`)
+    map(event => `${getString(event.date)} ${event.user}: ${event.message}\n`)
   )
   .subscribe( // attempt to make a socket connection
     message => chat.innerHTML += message, // handle new message from server
