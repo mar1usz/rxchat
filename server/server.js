@@ -1,9 +1,7 @@
 const WebSocket = require('ws');
 const wss = new WebSocket.Server({ port: 8081 });
 
-
 wss.on('connection', (ws, request) => {
-
   // log connection request
   console.log(request.rawHeaders);
 
