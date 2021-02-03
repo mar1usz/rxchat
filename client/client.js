@@ -37,9 +37,9 @@ wsSubject
     err => console.error(err) // log error
   );
 
-
 // send message after successful connection
 wsSubject.next({ date: getDate(), user: "newuser", message: "[connected]" });
+
 
 // send message and clear message input on enter
 // (mind the filters! username cannot be empty)
