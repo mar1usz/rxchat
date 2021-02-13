@@ -1,1 +1,1 @@
-export const getDate = () => new Date().toJSON();
+export const getDateString = () => new Date().toJSON();

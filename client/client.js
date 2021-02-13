@@ -7,7 +7,7 @@ const user = document.querySelector("#user");
 const message = document.querySelector("#message");
 const disconnect = document.querySelector("#disconnect");
 
-import { getDate } from "./utils.js";
+import { getDateString } from "./utils.js";
 const clearEverything = function () {
   chat.innerHTML = "";
   user.value = "";
@@ -38,7 +38,7 @@ wsSubject
   );
 
 // send message after successful connection
-wsSubject.next({ date: getDate(), user: "newuser", message: "[connected]" });
+wsSubject.next({ date: getDateString(), user: "newuser", message: "[connected]" });
 
 
 // send message and clear message input on enter
@@ -51,7 +51,7 @@ fromEvent(message, "keyup")
     throttleTime(100)
   )
   .subscribe(() => {
-    wsSubject.next({ date: getDate(), user: `${user.value}`, message: `${message.value}` });
+    wsSubject.next({ date: getDateString(), user: `${user.value}`, message: `${message.value}` });
     clearMessageInput();
   });
 
@@ -61,6 +61,6 @@ fromEvent(disconnect, "click")
     filter(() => `${user.value}`.trim().length > 0)
   )
   .subscribe(() => {
-    wsSubject.next({ date: getDate(), user: `${user.value}`, message: "[disconnected]" });
+    wsSubject.next({ date: getDateString(), user: `${user.value}`, message: "[disconnected]" });
     wsSubject.complete();
   });
