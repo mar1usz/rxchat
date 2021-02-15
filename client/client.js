@@ -8,11 +8,13 @@ const message = document.querySelector("#message");
 const disconnect = document.querySelector("#disconnect");
 
 import { getDateString } from "./utils.js";
+
 const clearEverything = function () {
   chat.innerHTML = "";
   user.value = "";
   message.value = "";
 };
+
 const clearMessageInput = function () {
   message.value = "";
 };
