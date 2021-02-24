@@ -8,6 +8,7 @@ const user = document.querySelector("#user");
 const message = document.querySelector("#message");
 const disconnect = document.querySelector("#disconnect");
 
+
 const clearEverything = function () {
   chat.innerHTML = "";
   user.value = "";
