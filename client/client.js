@@ -8,7 +8,6 @@ const user = document.querySelector("#user");
 const message = document.querySelector("#message");
 const disconnect = document.querySelector("#disconnect");
 
-
 const clearEverything = function () {
   chat.innerHTML = "";
   user.value = "";
@@ -25,30 +24,28 @@ const wsSubject = webSocket({
   openObserver: { // log open event
     next(openEvent) { console.log(openEvent); }
   },
-  closeObserver: {  // log close event and clear everything
+  closeObserver: {  // log close event
     next(closeEvent) { console.log(closeEvent); clearEverything(); }
   }
 });
 
 wsSubject
   .pipe(
-    map(event => `${event.date} ${event.user}: ${event.message}\n`) // project new message from server
+    map(event => `${event.date} ${event.user}: ${event.message}\n`) // project new message
   )
-  .subscribe( // attempt to make a socket connection
-    message => chat.innerHTML += message, // handle new message from server
-    err => console.error(err) // log error
+  .subscribe( // attempt to make a connection
+    message => chat.innerHTML += message, // handle new message
+    err => console.error(err)
   );
 
-// send message after successful connection
+// send message after connection
 wsSubject.next({ date: getDateString(), user: "newuser", message: "[connected]" });
 
 
-// send message and clear message input on enter
-// (mind the filters! username cannot be empty)
 fromEvent(message, "keyup")
   .pipe(
     filter(event => event.key === "Enter"),
-    filter(() => `${user.value}`.trim().length > 0),
+    filter(() => `${user.value}`.trim().length > 0),  // username cannot be empty
     filter(() => `${message.value}`.trim().length > 0),
     throttleTime(100)
   )
@@ -57,12 +54,11 @@ fromEvent(message, "keyup")
     clearMessageInput();
   });
 
-// send message and close connection on click
 fromEvent(disconnect, "click")
   .pipe(
     filter(() => `${user.value}`.trim().length > 0)
   )
   .subscribe(() => {
     wsSubject.next({ date: getDateString(), user: `${user.value}`, message: "[disconnected]" });
-    wsSubject.complete();
+    wsSubject.complete(); // close connection
   });
