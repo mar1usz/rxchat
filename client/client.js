@@ -38,8 +38,7 @@ wsSubject
     err => console.error(err)
   );
 
-// send message after connection
-wsSubject.next({ date: getDateString(), user: "newuser", message: "[connected]" });
+wsSubject.next({ date: getDateString(), user: "newuser", message: "[connected]" }); // send message after connection
 
 
 fromEvent(message, "keyup")
