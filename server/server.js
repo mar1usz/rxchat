@@ -9,7 +9,6 @@ wss.on('connection', (ws, request) => {
       if (client.readyState === WebSocket.OPEN)
         client.send(data);
     }
-
     console.log(data);
   });
 

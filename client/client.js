@@ -25,7 +25,7 @@ const wsSubject = webSocket({
     next(openEvent) { console.log(openEvent); }
   },
   closeObserver: {  // close event
-    next(closeEvent) { console.log(closeEvent); clearEverything(); }
+    next(closeEvent) { console.log(closeEvent); }
   }
 });
 
@@ -60,4 +60,5 @@ fromEvent(disconnect, "click")
   .subscribe(() => {
     wsSubject.next({ date: getDateString(), user: `${user.value}`, message: "[disconnected]" });
     wsSubject.complete(); // close connection
+    clearEverything();
   });
