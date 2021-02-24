@@ -1,3 +1,4 @@
+import { getDateString } from "./utils.js";
 const { webSocket } = rxjs.webSocket;
 const { fromEvent } = rxjs;
 const { map, filter, throttleTime } = rxjs.operators;
@@ -6,8 +7,6 @@ const chat = document.querySelector("#chat");
 const user = document.querySelector("#user");
 const message = document.querySelector("#message");
 const disconnect = document.querySelector("#disconnect");
-
-import { getDateString } from "./utils.js";
 
 const clearEverything = function () {
   chat.innerHTML = "";
