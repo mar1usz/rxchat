@@ -20,3 +20,7 @@ wss.on('connection', (ws, request) => {
     console.error(err);
   });
 });
+
+wss.on('error', (err) => {
+  console.error(err);
+});
