@@ -21,6 +21,6 @@ wss.on('connection', (ws, request) => {
   });
 });
 
-wss.on('error', (err) => {
+wss.on('error', err => {
   console.error(err);
 });
