@@ -21,10 +21,10 @@ const clearMessageInput = function () {
 
 const wsSubject = webSocket({
   url: "ws://localhost:8081", // port: 8081
-  openObserver: { // log open event
+  openObserver: { // open event
     next(openEvent) { console.log(openEvent); }
   },
-  closeObserver: {  // log close event
+  closeObserver: {  // close event
     next(closeEvent) { console.log(closeEvent); clearEverything(); }
   }
 });
