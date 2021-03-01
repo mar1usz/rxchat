@@ -9,7 +9,6 @@ const user = document.querySelector("#user");
 const message = document.querySelector("#message");
 const disconnect = document.querySelector("#disconnect");
 
-
 const clearEverything = function () {
   chat.innerHTML = "";
   user.value = "";
@@ -39,7 +38,6 @@ wsSubject
     message => chat.innerHTML += message, // handle new message from server
     err => console.error(err)
   );
-
 
 wsSubject.next({ date: getDateString(), user: "newuser", message: "[connected]" }); // send message after connection
 
