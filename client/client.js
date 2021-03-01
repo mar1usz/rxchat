@@ -40,6 +40,7 @@ wsSubject
     err => console.error(err)
   );
 
+
 wsSubject.next({ date: getDateString(), user: "newuser", message: "[connected]" }); // send message after connection
 
 
