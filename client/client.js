@@ -45,21 +45,21 @@ wsSubject.next({ date: getDateString(), user: "newuser", message: "[connected]" 
 fromEvent(message, "keyup")
   .pipe(
     filter(event => event.key === "Enter"),
-    filter(() => `${user.value}`.trim().length > 0),  // username cannot be empty
-    filter(() => `${message.value}`.trim().length > 0),
+    filter(() => user.value.trim().length > 0),  // username cannot be empty
+    filter(() => message.value.trim().length > 0),
     throttleTime(100)
   )
   .subscribe(() => {
-    wsSubject.next({ date: getDateString(), user: `${user.value}`, message: `${message.value}` });
+    wsSubject.next({ date: getDateString(), user: user.value, message: message.value });
     clearMessageInput();
   });
 
 fromEvent(disconnect, "click")
   .pipe(
-    filter(() => `${user.value}`.trim().length > 0)
+    filter(() => user.value.trim().length > 0)
   )
   .subscribe(() => {
-    wsSubject.next({ date: getDateString(), user: `${user.value}`, message: "[disconnected]" });
+    wsSubject.next({ date: getDateString(), user: user.value, message: "[disconnected]" });
     wsSubject.complete(); // close connection
     clearEverything();
   });
