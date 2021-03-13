@@ -14,7 +14,6 @@ const clearEverything = function () {
   user.value = "";
   message.value = "";
 };
-
 const clearMessageInput = function () {
   message.value = "";
 };
