@@ -32,7 +32,7 @@ wsSubject
     message => chat.innerHTML += message, // handle new message from server
     err => console.error(err)
   );
-wsSubject.next({ date: getDateString(), user: "newuser", message: "[connected]" }); // send message after connection
+wsSubject.next({ date: getDateString(), user: "newuser", message: "[connected]" }); // send message after successful connection
 
 fromEvent(message, "keyup")
   .pipe(
