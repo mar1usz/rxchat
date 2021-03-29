@@ -6,12 +6,16 @@ const chat = document.querySelector("#chat");
 const user = document.querySelector("#user");
 const message = document.querySelector("#message");
 const disconnect = document.querySelector("#disconnect");
-const clearEverything = () => {
+
+function clearEverything() {
   chat.innerHTML = "";
   user.value = "";
   message.value = "";
 }
-const clearMessageInput = () => message.value = "";
+
+function clearMessageInput() {
+  message.value = "";
+}
 
 const wsSubject = webSocket({
   url: "ws://localhost:8081", // port: 8081
@@ -22,6 +26,7 @@ const wsSubject = webSocket({
     next(closeEvent) { console.log(closeEvent); }
   }
 });
+
 wsSubject
   .pipe(
     map(event => `${event.date} ${event.user}: ${event.message}\n`) // project new message from server
@@ -30,6 +35,7 @@ wsSubject
     message => chat.innerHTML += message, // handle new message from server
     err => console.error(err)
   );
+
 wsSubject.next({ date: getDateString(), user: "newuser", message: "[connected]" }); // send message after successful connection
 
 fromEvent(message, "keyup")
