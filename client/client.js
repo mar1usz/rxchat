@@ -18,11 +18,11 @@ function clearMessageInput() {
 }
 
 const wsSubject = webSocket({
-  url: "ws://localhost:8081", // port: 8081
-  openObserver: { // open event
+  url: "ws://localhost:8081",
+  openObserver: {
     next(openEvent) { console.log(openEvent); }
   },
-  closeObserver: {  // close event
+  closeObserver: {
     next(closeEvent) { console.log(closeEvent); }
   }
 });
@@ -31,17 +31,17 @@ wsSubject
   .pipe(
     map(event => `${event.date} ${event.user}: ${event.message}\n`)
   )
-  .subscribe( // attempt to make a connection
+  .subscribe(
     message => chat.innerHTML += message,
     err => console.error(err)
   );
 
-wsSubject.next({ date: getDateString(), user: "newuser", message: "[connected]" }); // send message after successful connection
+wsSubject.next({ date: getDateString(), user: "newuser", message: "[connected]" });
 
 fromEvent(message, "keyup")
   .pipe(
     filter(event => event.key === "Enter"),
-    filter(() => user.value.trim().length > 0),  // username cannot be empty
+    filter(() => user.value.trim().length > 0),
     filter(() => message.value.trim().length > 0),
     throttleTime(100)
   )
@@ -56,6 +56,6 @@ fromEvent(disconnect, "click")
   )
   .subscribe(() => {
     wsSubject.next({ date: getDateString(), user: user.value, message: "[disconnected]" });
-    wsSubject.complete(); // close connection
+    wsSubject.complete();
     clearEverything();
   });
