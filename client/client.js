@@ -6,14 +6,14 @@ const chat = document.querySelector("#chat");
 const user = document.querySelector("#user");
 const message = document.querySelector("#message");
 const disconnect = document.querySelector("#disconnect");
-const clearEverything = function () {
+function clearEverything() {
   chat.innerHTML = "";
   user.value = "";
   message.value = "";
-};
-const clearMessageInput = function () {
+}
+function clearMessageInput() {
   message.value = "";
-};
+}
 
 const wsSubject = webSocket({
   url: "ws://localhost:8081", // port: 8081
