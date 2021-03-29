@@ -6,13 +6,11 @@ const chat = document.querySelector("#chat");
 const user = document.querySelector("#user");
 const message = document.querySelector("#message");
 const disconnect = document.querySelector("#disconnect");
-function clearEverything() {
-  chat.innerHTML = "";
+const clearMessageInput = () => message.value = "";
+const clearEverything = () => {
+  message.value = "";
   user.value = "";
-  message.value = "";
-}
-function clearMessageInput() {
-  message.value = "";
+  chat.innerHTML = "";
 }
 
 const wsSubject = webSocket({
