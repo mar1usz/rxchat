@@ -29,10 +29,10 @@ const wsSubject = webSocket({
 
 wsSubject
   .pipe(
-    map(event => `${event.date} ${event.user}: ${event.message}\n`) // project new message from server
+    map(event => `${event.date} ${event.user}: ${event.message}\n`)
   )
   .subscribe( // attempt to make a connection
-    message => chat.innerHTML += message, // handle new message from server
+    message => chat.innerHTML += message,
     err => console.error(err)
   );
 
