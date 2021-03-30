@@ -1,7 +1,7 @@
 import { getDateString } from "./dateUtils.js";
-const { webSocket } = rxjs.webSocket;
 const { fromEvent } = rxjs;
 const { map, filter, throttleTime } = rxjs.operators;
+const { webSocket } = rxjs.webSocket;
 const chat = document.querySelector("#chat");
 const user = document.querySelector("#user");
 const message = document.querySelector("#message");
