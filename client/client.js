@@ -55,7 +55,7 @@ fromEvent(disconnect, "click")
     filter(() => user.value.trim().length > 0)
   )
   .subscribe(() => {
-    wsSubject.next({ date: getDateString(), user: user.value, message: "[disconnected]" });
+    wsSubject.next({ date: getDateString(), user: user.value, message: "[disconnecting]" });
     wsSubject.complete();
     clearEverything();
   });
