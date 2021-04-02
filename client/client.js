@@ -1,4 +1,4 @@
-import { getDateString } from "./dateUtils.js";
+import { getDateString } from "./date-utils.js";
 const { fromEvent } = rxjs;
 const { map, filter, throttleTime } = rxjs.operators;
 const { webSocket } = rxjs.webSocket;
