@@ -32,7 +32,7 @@ subject
     map(event => `${event.date} ${event.user}: ${event.message}\n`)
   )
   .subscribe(
-    message => chat.value += message,
+    msg => chat.value += msg,
     err => console.error(err)
   );
 
