@@ -7,14 +7,14 @@ const user = document.querySelector("#user");
 const message = document.querySelector("#message");
 const disconnect = document.querySelector("#disconnect");
 
-function clearEverything() {
-  chat.innerHTML = "";
-  user.value = "";
+function clearMessageInput() {
   message.value = "";
 }
 
-function clearMessageInput() {
+function clearEverything() {
   message.value = "";
+  user.value = "";
+  chat.innerHTML = "";
 }
 
 const subject = webSocket({
