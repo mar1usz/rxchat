@@ -14,7 +14,7 @@ function clearMessageInput() {
 function clearEverything() {
   message.value = "";
   user.value = "";
-  chat.innerHTML = "";
+  chat.value = "";
 }
 
 const subject = webSocket({
@@ -32,7 +32,7 @@ subject
     map(event => `${event.date} ${event.user}: ${event.message}\n`)
   )
   .subscribe(
-    message => chat.innerHTML += message,
+    message => chat.value += message,
     err => console.error(err)
   );
 
