@@ -29,14 +29,14 @@ const subject = webSocket({
 
 subject
   .pipe(
-    map(event => `${event.date} ${event.user}: ${event.message}\n`)
+    map(msg => `${msg.date} ${msg.user}: ${msg.value}\n`)
   )
   .subscribe(
-    message => chat.value += message,
+    msg => chat.value += msg,
     err => console.error(err)
   );
 
-subject.next({ date: getDateString(), user: "newuser", message: "[connected]" });
+subject.next({ date: getDateString(), user: "newuser", value: "[connected]" });
 
 fromEvent(message, "keyup")
   .pipe(
@@ -46,7 +46,7 @@ fromEvent(message, "keyup")
     throttleTime(100)
   )
   .subscribe(() => {
-    subject.next({ date: getDateString(), user: user.value, message: message.value });
+    subject.next({ date: getDateString(), user: user.value, value: message.value });
     clearMessageInput();
   });
 
@@ -55,7 +55,7 @@ fromEvent(disconnect, "click")
     filter(() => user.value.trim().length > 0)
   )
   .subscribe(() => {
-    subject.next({ date: getDateString(), user: user.value, message: "[disconnecting]" });
+    subject.next({ date: getDateString(), user: user.value, value: "[disconnecting]" });
     subject.complete();
     clearEverything();
   });
