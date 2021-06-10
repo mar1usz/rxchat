@@ -8,6 +8,6 @@
   "author": "",
   "dependencies": {
     "nodemon": "^2.0.6",
-    "ws": "^7.4.4"
+    "ws": "^7.4.6"
   }
 }
