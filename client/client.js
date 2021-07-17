@@ -5,7 +5,7 @@ const { webSocket } = rxjs.webSocket;
 
 const _chat = document.querySelector("#chat");
 const _user = document.querySelector("#user");
-const _message = document.querySelector("#message");
+const _text = document.querySelector("#text");
 const _disconnect = document.querySelector("#disconnect");
 
 const wsSubject = webSocket({
@@ -18,15 +18,15 @@ const wsSubject = webSocket({
   }
 });
 
-const entersFromMessageInput = fromEvent(_message, "keyup").pipe(filter(event => event.key === "Enter"));
+const entersFromTextInput = fromEvent(_text, "keyup").pipe(filter(event => event.key === "Enter"));
 const clicksInDisconnect = fromEvent(_disconnect, "click");
 
-function clearMessageInput() {
-  _message.value = "";
+function clearTextInput() {
+  _text.value = "";
 }
 
 function clearEverything() {
-  _message.value = "";
+  _text.value = "";
   _user.value = "";
   _chat.value = "";
 }
@@ -34,7 +34,7 @@ function clearEverything() {
 function connect() {
   wsSubject
     .pipe(
-      map(event => `${event.date} ${event.user}: ${event.message}\n`)
+      map(event => `${event.date} ${event.user}: ${event.text}\n`)
     )
     .subscribe(
       msg => _chat.value += msg,
@@ -46,20 +46,20 @@ function disconnect() {
   wsSubject.complete();
 }
 
-function sendMessage({ date = getDateString(), user = _user.value, message = _message.value } = {}) {
-  wsSubject.next({ date, user, message });
+function sendMessage({ date = getDateString(), user = _user.value, text = _text.value } = {}) {
+  wsSubject.next({ date, user, text });
 }
 
 function subscribeToEnters() {
-  entersFromMessageInput
+  entersFromTextInput
     .pipe(
       filter(() => _user.value.trim().length > 0),
-      filter(() => _message.value.trim().length > 0),
+      filter(() => _text.value.trim().length > 0),
       throttleTime(100)
     )
     .subscribe(() => {
       sendMessage();
-      clearMessageInput();
+      clearTextInput();
     });
 }
 
@@ -69,7 +69,7 @@ function subscribeToClicks() {
       filter(() => _user.value.trim().length > 0)
     )
     .subscribe(() => {
-      sendMessage({ message: "[disconnecting]" });
+      sendMessage({ text: "[disconnecting]" });
       disconnect();
       clearEverything();
     });
@@ -79,7 +79,7 @@ function initialize() {
   connect();
   subscribeToEnters();
   subscribeToClicks();
-  sendMessage({ user: "newuser", message: "[connected]" });
+  sendMessage({ user: "newuser", text: "[connected]" });
 }
 
 initialize();
