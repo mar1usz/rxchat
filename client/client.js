@@ -38,9 +38,11 @@ subject
 
 subject.next({ date: getDateString(), user: "newuser", message: "[connected]" });
 
-fromEvent(message, "keyup")
+const enterKeyups = fromEvent(message, "keyup")
+  .pipe(filter(event => event.key === "Enter"));
+
+enterKeyups
   .pipe(
-    filter(event => event.key === "Enter"),
     filter(() => user.value.trim().length > 0),
     filter(() => message.value.trim().length > 0),
     throttleTime(100)
@@ -50,7 +52,9 @@ fromEvent(message, "keyup")
     clearMessageInput();
   });
 
-fromEvent(disconnect, "click")
+const clicksInDisconnect = fromEvent(disconnect, "click");
+
+clicksInDisconnect
   .pipe(
     filter(() => user.value.trim().length > 0)
   )
