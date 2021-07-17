@@ -17,8 +17,8 @@ const wsSubject = webSocket({
     next(closeEvent) { console.log(closeEvent); }
   }
 });
-
-const entersFromTextInput = fromEvent(_text, "keyup").pipe(filter(event => event.key === "Enter"));
+const entersFromTextInput = fromEvent(_text, "keyup")
+  .pipe(filter(event => event.key === "Enter"));
 const clicksInDisconnect = fromEvent(_disconnect, "click");
 
 function clearTextInput() {
