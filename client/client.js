@@ -1,5 +1,6 @@
 import { getDateString } from "./json-utils.js";
 import { isWhiteSpace } from "./string-utils.js";
+import { v4 as uuidv4 } from "https://jspm.dev/uuid";
 const { fromEvent } = rxjs;
 const { map, filter, throttleTime } = rxjs.operators;
 const { webSocket } = rxjs.webSocket;
@@ -32,6 +33,10 @@ function clearEverything() {
   _chat.value = "";
 }
 
+function setInitialUser() {
+  _user.value = uuidv4().split("-")[0];
+}
+
 function connect() {
   _wsSubject
     .pipe(
@@ -47,8 +52,8 @@ function disconnect() {
   _wsSubject.complete();
 }
 
-function sendMessage({ user = _user.value, text = _text.value } = {}) {
-  _wsSubject.next({ date: getDateString(), user, text });
+function sendMessage(text = _text.value) {
+  _wsSubject.next({ date: getDateString(), user: _user.value, text });
 }
 
 function subscribeToEnters() {
@@ -70,17 +75,18 @@ function subscribeToClicks() {
       filter(() => !isWhiteSpace(_user.value))
     )
     .subscribe(() => {
-      sendMessage({ text: "[disconnecting]" });
+      sendMessage("[disconnecting]");
       disconnect();
       clearEverything();
     });
 }
 
 function initialize() {
+  setInitialUser();
   connect();
   subscribeToEnters();
   subscribeToClicks();
-  sendMessage({ user: "newuser", text: "[connected]" });
+  sendMessage("[connected]");
 }
 
 initialize();
