@@ -36,8 +36,6 @@ wsSubject
     err => console.error(err)
   );
 
-wsSubject.next({ date: getDateString(), user: "newuser", message: "[connected]" });
-
 fromEvent(message, "keyup")
   .pipe(
     filter(event => event.key === "Enter"),
@@ -59,3 +57,5 @@ fromEvent(disconnect, "click")
     wsSubject.complete();
     clearEverything();
   });
+
+wsSubject.next({ date: getDateString(), user: "newuser", message: "[connected]" });
