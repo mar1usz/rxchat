@@ -1,4 +1,5 @@
 import { getDateString } from "./date-utils.js";
+import { isWhiteSpace } from "./string-utils.js";
 const { fromEvent } = rxjs;
 const { map, filter, throttleTime } = rxjs.operators;
 const { webSocket } = rxjs.webSocket;
@@ -20,8 +21,6 @@ const wsSubject = webSocket({
 const entersFromTextInput = fromEvent(_text, "keyup")
   .pipe(filter(event => event.key === "Enter"));
 const clicksInDisconnect = fromEvent(_disconnect, "click");
-
-const isWhiteSpace = (str) => str.trim().length === 0;
 
 function clearTextInput() {
   _text.value = "";
