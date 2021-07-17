@@ -89,7 +89,6 @@ function subscribeToClicks() {
 
 function initialize() {
   setInitialUser();
-
   connect();
   subscribeToEnters();
   subscribeToClicks();
