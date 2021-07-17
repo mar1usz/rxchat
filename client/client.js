@@ -6,6 +6,17 @@ const chat = document.querySelector("#chat");
 const user = document.querySelector("#user");
 const message = document.querySelector("#message");
 const disconnect = document.querySelector("#disconnect");
+const subject = webSocket({
+  url: "ws://localhost:8081",
+  openObserver: {
+    next(openEvent) { console.log(openEvent); }
+  },
+  closeObserver: {
+    next(closeEvent) { console.log(closeEvent); }
+  }
+});
+const enterKeyups = fromEvent(message, "keyup").pipe(filter(event => event.key === "Enter"));
+const clicksInDisconnect = fromEvent(disconnect, "click");
 
 function clearMessageInput() {
   message.value = "";
@@ -16,21 +27,6 @@ function clearEverything() {
   user.value = "";
   chat.value = "";
 }
-
-const subject = webSocket({
-  url: "ws://localhost:8081",
-  openObserver: {
-    next(openEvent) { console.log(openEvent); }
-  },
-  closeObserver: {
-    next(closeEvent) { console.log(closeEvent); }
-  }
-});
-
-const enterKeyups = fromEvent(message, "keyup")
-  .pipe(filter(event => event.key === "Enter"));
-
-const clicksInDisconnect = fromEvent(disconnect, "click");
 
 subject
   .pipe(
