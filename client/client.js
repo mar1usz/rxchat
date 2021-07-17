@@ -8,7 +8,7 @@ const user = document.querySelector("#user");
 const message = document.querySelector("#message");
 const disconnect = document.querySelector("#disconnect");
 
-const subject = webSocket({
+const webSocket = webSocket({
   url: "ws://localhost:8081",
   openObserver: {
     next(openEvent) { console.log(openEvent); }
@@ -31,7 +31,7 @@ function clearEverything() {
   chat.value = "";
 }
 
-subject
+webSocket
   .pipe(
     map(event => `${event.date} ${event.user}: ${event.message}\n`)
   )
@@ -47,7 +47,7 @@ enterKeyups
     throttleTime(100)
   )
   .subscribe(() => {
-    subject.next({ date: getDateString(), user: user.value, message: message.value });
+    webSocket.next({ date: getDateString(), user: user.value, message: message.value });
     clearMessageInput();
   });
 
@@ -56,9 +56,9 @@ clicksInDisconnect
     filter(() => user.value.trim().length > 0)
   )
   .subscribe(() => {
-    subject.next({ date: getDateString(), user: user.value, message: "[disconnecting]" });
-    subject.complete();
+    webSocket.next({ date: getDateString(), user: user.value, message: "[disconnecting]" });
+    webSocket.complete();
     clearEverything();
   });
 
-subject.next({ date: getDateString(), user: "newuser", message: "[connected]" });
+webSocket.next({ date: getDateString(), user: "newuser", message: "[connected]" });
