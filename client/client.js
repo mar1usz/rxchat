@@ -17,7 +17,7 @@ function clearEverything() {
   chat.value = "";
 }
 
-const webSocket = webSocket({
+const wsSubject = webSocket({
   url: "ws://localhost:8081",
   openObserver: {
     next(openEvent) { console.log(openEvent); }
@@ -27,7 +27,7 @@ const webSocket = webSocket({
   }
 });
 
-webSocket
+wsSubject
   .pipe(
     map(event => `${event.date} ${event.user}: ${event.message}\n`)
   )
@@ -36,7 +36,7 @@ webSocket
     err => console.error(err)
   );
 
-webSocket.next({ date: getDateString(), user: "newuser", message: "[connected]" });
+wsSubject.next({ date: getDateString(), user: "newuser", message: "[connected]" });
 
 fromEvent(message, "keyup")
   .pipe(
@@ -46,7 +46,7 @@ fromEvent(message, "keyup")
     throttleTime(100)
   )
   .subscribe(() => {
-    webSocket.next({ date: getDateString(), user: user.value, message: message.value });
+    wsSubject.next({ date: getDateString(), user: user.value, message: message.value });
     clearMessageInput();
   });
 
@@ -55,7 +55,7 @@ fromEvent(disconnect, "click")
     filter(() => user.value.trim().length > 0)
   )
   .subscribe(() => {
-    webSocket.next({ date: getDateString(), user: user.value, message: "[disconnecting]" });
-    webSocket.complete();
+    wsSubject.next({ date: getDateString(), user: user.value, message: "[disconnecting]" });
+    wsSubject.complete();
     clearEverything();
   });
