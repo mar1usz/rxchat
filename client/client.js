@@ -2,6 +2,7 @@ import { getDateString } from "./date-utils.js";
 const { fromEvent } = rxjs;
 const { map, filter, throttleTime } = rxjs.operators;
 const { webSocket } = rxjs.webSocket;
+
 const _chat = document.querySelector("#chat");
 const _user = document.querySelector("#user");
 const _message = document.querySelector("#message");
