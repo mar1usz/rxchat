@@ -38,9 +38,7 @@ webSocket
 
 webSocket.next({ date: getDateString(), user: "newuser", message: "[connected]" });
 
-const enterKeyups = fromEvent(message, "keyup")
-  .pipe(filter(event => event.key === "Enter"));
-
+const enterKeyups = fromEvent(message, "keyup").pipe(filter(event => event.key === "Enter"));
 enterKeyups
   .pipe(
     filter(() => user.value.trim().length > 0),
@@ -53,7 +51,6 @@ enterKeyups
   });
 
 const clicksInDisconnect = fromEvent(disconnect, "click");
-
 clicksInDisconnect
   .pipe(
     filter(() => user.value.trim().length > 0)
