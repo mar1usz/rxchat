@@ -36,6 +36,8 @@ webSocket
     err => console.error(err)
   );
 
+webSocket.next({ date: getDateString(), user: "newuser", message: "[connected]" });
+
 fromEvent(message, "keyup")
   .pipe(
     filter(event => event.key === "Enter"),
@@ -57,5 +59,3 @@ fromEvent(disconnect, "click")
     webSocket.complete();
     clearEverything();
   });
-
-webSocket.next({ date: getDateString(), user: "newuser", message: "[connected]" });
