@@ -17,9 +17,9 @@ const subject = webSocket({
     next(closeEvent) { console.log(closeEvent); }
   }
 });
-const clicksInDisconnect = fromEvent(disconnect, "click");
 const enterKeyups = fromEvent(message, "keyup")
   .pipe(filter(event => event.key === "Enter"));
+const clicksInDisconnect = fromEvent(disconnect, "click");
 
 function clearMessageInput() {
   message.value = "";
@@ -40,16 +40,6 @@ subject
     err => console.error(err)
   );
 
-clicksInDisconnect
-  .pipe(
-    filter(() => user.value.trim().length > 0)
-  )
-  .subscribe(() => {
-    subject.next({ date: getDateString(), user: user.value, message: "[disconnecting]" });
-    subject.complete();
-    clearEverything();
-  });
-
 enterKeyups
   .pipe(
     filter(() => user.value.trim().length > 0),
@@ -59,6 +49,16 @@ enterKeyups
   .subscribe(() => {
     subject.next({ date: getDateString(), user: user.value, message: message.value });
     clearMessageInput();
+  });
+
+clicksInDisconnect
+  .pipe(
+    filter(() => user.value.trim().length > 0)
+  )
+  .subscribe(() => {
+    subject.next({ date: getDateString(), user: user.value, message: "[disconnecting]" });
+    subject.complete();
+    clearEverything();
   });
 
 subject.next({ date: getDateString(), user: "newuser", message: "[connected]" });
