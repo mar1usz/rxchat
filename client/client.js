@@ -22,6 +22,7 @@ const _wsSubject = webSocket({
     next(closeEvent) { console.log(closeEvent); }
   }
 });
+
 const _entersFromText = fromEvent(_text, "keyup")
   .pipe(filter(event => event.key === "Enter"));
 const _clicksInDisconnect = fromEvent(_disconnect, "click");
