@@ -5,6 +5,9 @@ const { fromEvent } = rxjs;
 const { map, filter, throttleTime } = rxjs.operators;
 const { webSocket } = rxjs.webSocket;
 
+const CONNECTED_TEXT = "[connected]";
+const DISCONNECTING_TEXT = "[disconnecting]";
+
 const _chat = document.querySelector("#chat");
 const _user = document.querySelector("#user");
 const _text = document.querySelector("#text");
@@ -75,7 +78,7 @@ function subscribeToClicks() {
       filter(() => !isWhiteSpace(_user.value))
     )
     .subscribe(() => {
-      sendMessage("[disconnecting]");
+      sendMessage(DISCONNECTING_TEXT);
       disconnect();
       clearEverything();
     });
@@ -86,7 +89,7 @@ function initialize() {
   connect();
   subscribeToEnters();
   subscribeToClicks();
-  sendMessage("[connected]");
+  sendMessage(CONNECTED_TEXT);
 }
 
 initialize();
