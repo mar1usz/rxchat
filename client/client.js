@@ -37,7 +37,7 @@ function clearEverything() {
 }
 
 function setInitialUser() {
-  _user.value = uuidv4().split("-")[0];
+  _user.value = uuidv4().substring(0, 8);
 }
 
 function connect() {
