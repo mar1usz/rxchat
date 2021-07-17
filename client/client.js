@@ -18,11 +18,11 @@ const _wsSubject = webSocket({
     next(closeEvent) { console.log(closeEvent); }
   }
 });
-const _entersFromTextInput = fromEvent(_text, "keyup")
+const _entersFromText = fromEvent(_text, "keyup")
   .pipe(filter(event => event.key === "Enter"));
 const _clicksInDisconnect = fromEvent(_disconnect, "click");
 
-function clearTextInput() {
+function clearText() {
   _text.value = "";
 }
 
@@ -52,7 +52,7 @@ function sendMessage({ date = getDateString(), user = _user.value, text = _text.
 }
 
 function subscribeToEnters() {
-  _entersFromTextInput
+  _entersFromText
     .pipe(
       filter(() => !isWhiteSpace(_user.value)),
       filter(() => !isWhiteSpace(_text.value)),
@@ -60,7 +60,7 @@ function subscribeToEnters() {
     )
     .subscribe(() => {
       sendMessage();
-      clearTextInput();
+      clearText();
     });
 }
 
