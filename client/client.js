@@ -35,7 +35,6 @@ wsSubject
     msg => chat.value += msg,
     err => console.error(err)
   );
-
 wsSubject.next({ date: getDateString(), user: "newuser", message: "[connected]" });
 
 fromEvent(message, "keyup")
