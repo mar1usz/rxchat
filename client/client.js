@@ -36,11 +36,9 @@ webSocket
     err => console.error(err)
   );
 
-webSocket.next({ date: getDateString(), user: "newuser", message: "[connected]" });
-
-const enterKeyups = fromEvent(message, "keyup").pipe(filter(event => event.key === "Enter"));
-enterKeyups
+fromEvent(message, "keyup")
   .pipe(
+    filter(event => event.key === "Enter"),
     filter(() => user.value.trim().length > 0),
     filter(() => message.value.trim().length > 0),
     throttleTime(100)
@@ -50,8 +48,7 @@ enterKeyups
     clearMessageInput();
   });
 
-const clicksInDisconnect = fromEvent(disconnect, "click");
-clicksInDisconnect
+fromEvent(disconnect, "click")
   .pipe(
     filter(() => user.value.trim().length > 0)
   )
@@ -60,3 +57,5 @@ clicksInDisconnect
     webSocket.complete();
     clearEverything();
   });
+
+webSocket.next({ date: getDateString(), user: "newuser", message: "[connected]" });
