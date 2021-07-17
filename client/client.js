@@ -5,6 +5,7 @@ const { fromEvent } = rxjs;
 const { map, filter, throttleTime } = rxjs.operators;
 const { webSocket } = rxjs.webSocket;
 
+const URL = "ws://localhost:8081";
 const CONNECTED_TEXT = "[connected]";
 const DISCONNECTING_TEXT = "[disconnecting]";
 
@@ -14,7 +15,7 @@ const _text = document.querySelector("#text");
 const _disconnect = document.querySelector("#disconnect");
 
 const _wsSubject = webSocket({
-  url: "ws://localhost:8081",
+  url: URL,
   openObserver: {
     next(openEvent) { console.log(openEvent); }
   },
