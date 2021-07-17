@@ -47,8 +47,8 @@ function disconnect() {
   _wsSubject.complete();
 }
 
-function sendMessage({ date = getDateString(), user = _user.value, text = _text.value } = {}) {
-  _wsSubject.next({ date, user, text });
+function sendMessage({ user = _user.value, text = _text.value } = {}) {
+  _wsSubject.next({ date: getDateString(), user, text });
 }
 
 function subscribeToEnters() {
