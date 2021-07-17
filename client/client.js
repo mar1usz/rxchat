@@ -2,23 +2,10 @@ import { getDateString } from "./date-utils.js";
 const { fromEvent } = rxjs;
 const { map, filter, throttleTime } = rxjs.operators;
 const { webSocket } = rxjs.webSocket;
-
 const chat = document.querySelector("#chat");
 const user = document.querySelector("#user");
 const message = document.querySelector("#message");
 const disconnect = document.querySelector("#disconnect");
-
-const webSocket = webSocket({
-  url: "ws://localhost:8081",
-  openObserver: {
-    next(openEvent) { console.log(openEvent); }
-  },
-  closeObserver: {
-    next(closeEvent) { console.log(closeEvent); }
-  }
-});
-const enterKeyups = fromEvent(message, "keyup").pipe(filter(event => event.key === "Enter"));
-const clicksInDisconnect = fromEvent(disconnect, "click");
 
 function clearMessageInput() {
   message.value = "";
@@ -29,6 +16,21 @@ function clearEverything() {
   user.value = "";
   chat.value = "";
 }
+
+const webSocket = webSocket({
+  url: "ws://localhost:8081",
+  openObserver: {
+    next(openEvent) { console.log(openEvent); }
+  },
+  closeObserver: {
+    next(closeEvent) { console.log(closeEvent); }
+  }
+});
+
+const enterKeyups = fromEvent(message, "keyup")
+  .pipe(filter(event => event.key === "Enter"));
+
+const clicksInDisconnect = fromEvent(disconnect, "click");
 
 webSocket
   .pipe(
