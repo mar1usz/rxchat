@@ -2,20 +2,10 @@ import { getDateString } from "./date-utils.js";
 const { fromEvent } = rxjs;
 const { map, filter, throttleTime } = rxjs.operators;
 const { webSocket } = rxjs.webSocket;
-const chat = document.querySelector("#chat");
-const user = document.querySelector("#user");
-const message = document.querySelector("#message");
-const disconnect = document.querySelector("#disconnect");
-
-function clearMessageInput() {
-  message.value = "";
-}
-
-function clearEverything() {
-  message.value = "";
-  user.value = "";
-  chat.value = "";
-}
+const _chat = document.querySelector("#chat");
+const _user = document.querySelector("#user");
+const _message = document.querySelector("#message");
+const _disconnect = document.querySelector("#disconnect");
 
 const wsSubject = webSocket({
   url: "ws://localhost:8081",
@@ -27,34 +17,68 @@ const wsSubject = webSocket({
   }
 });
 
-wsSubject
-  .pipe(
-    map(event => `${event.date} ${event.user}: ${event.message}\n`)
-  )
-  .subscribe(
-    msg => chat.value += msg,
-    err => console.error(err)
-  );
-wsSubject.next({ date: getDateString(), user: "newuser", message: "[connected]" });
+const entersFromMessageInput = fromEvent(_message, "keyup").pipe(filter(event => event.key === "Enter"));
+const clicksInDisconnect = fromEvent(_disconnect, "click");
 
-fromEvent(message, "keyup")
-  .pipe(
-    filter(event => event.key === "Enter"),
-    filter(() => user.value.trim().length > 0),
-    filter(() => message.value.trim().length > 0),
-    throttleTime(100)
-  )
-  .subscribe(() => {
-    wsSubject.next({ date: getDateString(), user: user.value, message: message.value });
-    clearMessageInput();
-  });
+function clearMessageInput() {
+  _message.value = "";
+}
 
-fromEvent(disconnect, "click")
-  .pipe(
-    filter(() => user.value.trim().length > 0)
-  )
-  .subscribe(() => {
-    wsSubject.next({ date: getDateString(), user: user.value, message: "[disconnecting]" });
-    wsSubject.complete();
-    clearEverything();
-  });
+function clearEverything() {
+  _message.value = "";
+  _user.value = "";
+  _chat.value = "";
+}
+
+function connect() {
+  wsSubject
+    .pipe(
+      map(event => `${event.date} ${event.user}: ${event.message}\n`)
+    )
+    .subscribe(
+      msg => _chat.value += msg,
+      err => console.error(err)
+    );
+}
+
+function disconnect() {
+  wsSubject.complete();
+}
+
+function sendMessage({ date = getDateString(), user = _user.value, message = _message.value } = {}) {
+  wsSubject.next({ date, user, message });
+}
+
+function subscribeToEnters() {
+  entersFromMessageInput
+    .pipe(
+      filter(() => _user.value.trim().length > 0),
+      filter(() => _message.value.trim().length > 0),
+      throttleTime(100)
+    )
+    .subscribe(() => {
+      sendMessage();
+      clearMessageInput();
+    });
+}
+
+function subscribeToClicks() {
+  clicksInDisconnect
+    .pipe(
+      filter(() => _user.value.trim().length > 0)
+    )
+    .subscribe(() => {
+      sendMessage({ message: "[disconnecting]" });
+      disconnect();
+      clearEverything();
+    });
+}
+
+function initialize() {
+  connect();
+  subscribeToEnters();
+  subscribeToClicks();
+  sendMessage({ user: "newuser", message: "[connected]" });
+}
+
+initialize();
