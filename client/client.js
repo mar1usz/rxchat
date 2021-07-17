@@ -17,15 +17,20 @@ const _disconnect = document.querySelector("#disconnect");
 const _wsSubject = webSocket({
   url: URL,
   openObserver: {
-    next(openEvent) { console.log(openEvent); }
+    next(openEvent) {
+      console.log(openEvent);
+    },
   },
   closeObserver: {
-    next(closeEvent) { console.log(closeEvent); }
-  }
+    next(closeEvent) {
+      console.log(closeEvent);
+    },
+  },
 });
 
-const _entersFromText = fromEvent(_text, "keyup")
-  .pipe(filter(event => event.key === "Enter"));
+const _entersFromText = fromEvent(_text, "keyup").pipe(
+  filter((event) => event.key === "Enter")
+);
 const _clicksInDisconnect = fromEvent(_disconnect, "click");
 
 function clearText() {
@@ -44,12 +49,10 @@ function setInitialUser() {
 
 function connect() {
   _wsSubject
-    .pipe(
-      map(event => `${event.date} ${event.user}: ${event.text}\n`)
-    )
+    .pipe(map((event) => `${event.date} ${event.user}: ${event.text}\n`))
     .subscribe(
-      msg => _chat.value += msg,
-      err => console.error(err)
+      (msg) => (_chat.value += msg),
+      (err) => console.error(err)
     );
 }
 
@@ -76,9 +79,7 @@ function subscribeToEnters() {
 
 function subscribeToClicks() {
   _clicksInDisconnect
-    .pipe(
-      filter(() => !isWhiteSpace(_user.value))
-    )
+    .pipe(filter(() => !isWhiteSpace(_user.value)))
     .subscribe(() => {
       sendMessage(DISCONNECTING_TEXT);
       disconnect();
