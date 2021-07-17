@@ -21,6 +21,8 @@ const entersFromTextInput = fromEvent(_text, "keyup")
   .pipe(filter(event => event.key === "Enter"));
 const clicksInDisconnect = fromEvent(_disconnect, "click");
 
+const isWhiteSpace = (str) => str.trim().length === 0;
+
 function clearTextInput() {
   _text.value = "";
 }
@@ -53,8 +55,8 @@ function sendMessage({ date = getDateString(), user = _user.value, text = _text.
 function subscribeToEnters() {
   entersFromTextInput
     .pipe(
-      filter(() => _user.value.trim().length > 0),
-      filter(() => _text.value.trim().length > 0),
+      filter(() => !isWhiteSpace(_user.value)),
+      filter(() => !isWhiteSpace(_text.value)),
       throttleTime(100)
     )
     .subscribe(() => {
@@ -66,7 +68,7 @@ function subscribeToEnters() {
 function subscribeToClicks() {
   clicksInDisconnect
     .pipe(
-      filter(() => _user.value.trim().length > 0)
+      filter(() => !isWhiteSpace(_user.value))
     )
     .subscribe(() => {
       sendMessage({ text: "[disconnecting]" });
