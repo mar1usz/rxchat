@@ -9,7 +9,7 @@ const _user = document.querySelector("#user");
 const _text = document.querySelector("#text");
 const _disconnect = document.querySelector("#disconnect");
 
-const wsSubject = webSocket({
+const _wsSubject = webSocket({
   url: "ws://localhost:8081",
   openObserver: {
     next(openEvent) { console.log(openEvent); }
@@ -18,9 +18,9 @@ const wsSubject = webSocket({
     next(closeEvent) { console.log(closeEvent); }
   }
 });
-const entersFromTextInput = fromEvent(_text, "keyup")
+const _entersFromTextInput = fromEvent(_text, "keyup")
   .pipe(filter(event => event.key === "Enter"));
-const clicksInDisconnect = fromEvent(_disconnect, "click");
+const _clicksInDisconnect = fromEvent(_disconnect, "click");
 
 function clearTextInput() {
   _text.value = "";
@@ -33,7 +33,7 @@ function clearEverything() {
 }
 
 function connect() {
-  wsSubject
+  _wsSubject
     .pipe(
       map(event => `${event.date} ${event.user}: ${event.text}\n`)
     )
@@ -44,15 +44,15 @@ function connect() {
 }
 
 function disconnect() {
-  wsSubject.complete();
+  _wsSubject.complete();
 }
 
 function sendMessage({ date = getDateString(), user = _user.value, text = _text.value } = {}) {
-  wsSubject.next({ date, user, text });
+  _wsSubject.next({ date, user, text });
 }
 
 function subscribeToEnters() {
-  entersFromTextInput
+  _entersFromTextInput
     .pipe(
       filter(() => !isWhiteSpace(_user.value)),
       filter(() => !isWhiteSpace(_text.value)),
@@ -65,7 +65,7 @@ function subscribeToEnters() {
 }
 
 function subscribeToClicks() {
-  clicksInDisconnect
+  _clicksInDisconnect
     .pipe(
       filter(() => !isWhiteSpace(_user.value))
     )
