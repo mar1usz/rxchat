@@ -52,12 +52,12 @@ function connect() {
     );
 }
 
-function disconnect() {
-  _wsSubject.complete();
-}
-
 function sendMessage(text = _text.value) {
   _wsSubject.next({ date: getDateString(), user: _user.value, text });
+}
+
+function disconnect() {
+  _wsSubject.complete();
 }
 
 function subscribeToEnters() {
@@ -87,6 +87,7 @@ function subscribeToClicks() {
 
 function initialize() {
   setInitialUser();
+
   connect();
   subscribeToEnters();
   subscribeToClicks();
