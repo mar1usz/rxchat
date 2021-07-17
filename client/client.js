@@ -27,11 +27,6 @@ const webSocket = webSocket({
   }
 });
 
-const enterKeyups = fromEvent(message, "keyup")
-  .pipe(filter(event => event.key === "Enter"));
-
-const clicksInDisconnect = fromEvent(disconnect, "click");
-
 webSocket
   .pipe(
     map(event => `${event.date} ${event.user}: ${event.message}\n`)
@@ -40,6 +35,9 @@ webSocket
     msg => chat.value += msg,
     err => console.error(err)
   );
+
+const enterKeyups = fromEvent(message, "keyup")
+  .pipe(filter(event => event.key === "Enter"));
 
 enterKeyups
   .pipe(
@@ -51,6 +49,8 @@ enterKeyups
     webSocket.next({ date: getDateString(), user: user.value, message: message.value });
     clearMessageInput();
   });
+
+const clicksInDisconnect = fromEvent(disconnect, "click");
 
 clicksInDisconnect
   .pipe(
