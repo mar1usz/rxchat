@@ -52,7 +52,11 @@ function connect() {
     );
 }
 
-function sendMessage({ date = getDateString(), user = _user.value, text = _text.value } = {}) {
+function sendMessage({
+  date = getDateString(),
+  user = _user.value,
+  text = _text.value,
+} = {}) {
   _wsSubject.next({ date, user, text });
 }
 
