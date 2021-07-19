@@ -13,7 +13,7 @@ wss.on('connection', (ws, request) => {
   });
 
   ws.on('close', (code, reason) => {
-    console.log({ code: code, reason: reason });
+    console.log({ code, reason });
   });
 
   ws.on('error', err => {
