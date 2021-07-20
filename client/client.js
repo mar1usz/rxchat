@@ -1,5 +1,4 @@
 import { getDateString } from "./json-utils.js";
-import { isWhiteSpace } from "./string-utils.js";
 const { fromEvent } = rxjs;
 const { map, filter, throttleTime } = rxjs.operators;
 const { webSocket } = rxjs.webSocket;
@@ -63,8 +62,6 @@ function disconnect() {
 function subscribeToEnters() {
   _entersFromText
     .pipe(
-      filter(() => !isWhiteSpace(_user.value)),
-      filter(() => !isWhiteSpace(_text.value)),
       throttleTime(100)
     )
     .subscribe(() => {
@@ -75,7 +72,6 @@ function subscribeToEnters() {
 
 function subscribeToClicks() {
   _clicksInDisconnect
-    .pipe(filter(() => !isWhiteSpace(_user.value)))
     .subscribe(() => {
       sendMessage({ text: DISCONNECTING_TEXT });
       disconnect();
