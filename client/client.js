@@ -1,11 +1,11 @@
 import { getDateString } from "./json-utils.js";
 import { isWhiteSpace } from "./string-utils.js";
-import { v4 as uuidv4 } from "https://jspm.dev/uuid";
 const { fromEvent } = rxjs;
 const { map, filter, throttleTime } = rxjs.operators;
 const { webSocket } = rxjs.webSocket;
 
 const URL = "ws://localhost:8081";
+const NEW_USER = "newuser";
 const CONNECTED_TEXT = "[connected]";
 const DISCONNECTING_TEXT = "[disconnecting]";
 
@@ -77,10 +77,6 @@ function subscribeToClicks() {
     });
 }
 
-function initializeUser() {
-  _user.value = uuidv4().substring(0, 8);
-}
-
 function clearText() {
   _text.value = "";
 }
@@ -92,11 +88,10 @@ function clearEverything() {
 }
 
 function initialize() {
-  initializeUser();
   connect();
   subscribeToEnters();
   subscribeToClicks();
-  sendMessage({ text: CONNECTED_TEXT });
+  sendMessage({ user: NEW_USER, text: CONNECTED_TEXT });
 }
 
 initialize();
