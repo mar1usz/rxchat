@@ -32,20 +32,6 @@ const _entersFromText = fromEvent(_text, "keyup").pipe(
 );
 const _clicksInDisconnect = fromEvent(_disconnect, "click");
 
-function initializeUser() {
-  _user.value = uuidv4().substring(0, 8);
-}
-
-function clearText() {
-  _text.value = "";
-}
-
-function clearEverything() {
-  _text.value = "";
-  _user.value = "";
-  _chat.value = "";
-}
-
 function connect() {
   _wsSubject
     .pipe(map((event) => `${event.date} ${event.user}: ${event.text}\n`))
@@ -90,9 +76,22 @@ function subscribeToClicks() {
     });
 }
 
+function initializeUser() {
+  _user.value = uuidv4().substring(0, 8);
+}
+
+function clearText() {
+  _text.value = "";
+}
+
+function clearEverything() {
+  _text.value = "";
+  _user.value = "";
+  _chat.value = "";
+}
+
 function initialize() {
   initializeUser();
-
   connect();
   subscribeToEnters();
   subscribeToClicks();
