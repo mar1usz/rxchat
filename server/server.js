@@ -40,12 +40,12 @@ function onClose(code, reason) {
   console.log({ code, reason });
 }
 
-function onClientError(err) {
-  console.error(err);
+function onClientError(error) {
+  console.error(error);
 }
 
-function onServerError(err) {
-  console.error(err);
+function onServerError(error) {
+  console.error(error);
 }
 
 initialize();
