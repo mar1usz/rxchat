@@ -27,10 +27,18 @@ const _wsSubject = webSocket({
     },
   },
 });
+
 const _entersFromText = fromEvent(_text, "keyup").pipe(
   filter((event) => event.key === "Enter")
 );
 const _clicksInDisconnect = fromEvent(_disconnect, "click");
+
+function initialize() {
+  connect();
+  subscribeToEnters();
+  subscribeToClicks();
+  sendMessage({ user: NEW_USER, text: CONNECTED_TEXT });
+}
 
 function connect() {
   _wsSubject
@@ -84,13 +92,6 @@ function clearEverything() {
   _text.value = "";
   _user.value = "";
   _chat.value = "";
-}
-
-function initialize() {
-  connect();
-  subscribeToEnters();
-  subscribeToClicks();
-  sendMessage({ user: NEW_USER, text: CONNECTED_TEXT });
 }
 
 initialize();
