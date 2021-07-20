@@ -47,18 +47,6 @@ function connect() {
     );
 }
 
-function sendMessage({
-  date = getDateString(),
-  user = _user.value,
-  text = _text.value,
-} = {}) {
-  _wsSubject.next({ date, user, text });
-}
-
-function disconnect() {
-  _wsSubject.complete();
-}
-
 function subscribeToEnters() {
   _entersFromText.pipe(throttleTime(100)).subscribe(() => {
     sendMessage();
@@ -72,6 +60,18 @@ function subscribeToClicks() {
     disconnect();
     clearEverything();
   });
+}
+
+function sendMessage({
+  date = getDateString(),
+  user = _user.value,
+  text = _text.value,
+} = {}) {
+  _wsSubject.next({ date, user, text });
+}
+
+function disconnect() {
+  _wsSubject.complete();
 }
 
 function clearText() {
