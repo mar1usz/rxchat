@@ -33,7 +33,6 @@ function onMessage(data) {
       client.send(data);
     }
   }
-
   console.log(data);
 }
 
