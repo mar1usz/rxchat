@@ -1,1 +1,1 @@
-export const isWhiteSpace = (str) => str.trim().length === 0;
+export const isWhiteSpace = (str) => str?.trim()?.length === 0;
