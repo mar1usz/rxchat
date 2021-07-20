@@ -1,11 +1,11 @@
 import { getDateString } from "./json-utils.js";
 import { isWhiteSpace } from "./string-utils.js";
+import { v4 as uuidv4 } from "https://jspm.dev/uuid";
 const { fromEvent } = rxjs;
 const { map, filter, throttleTime } = rxjs.operators;
 const { webSocket } = rxjs.webSocket;
 
 const URL = "ws://localhost:8081";
-const NEW_USER = "newuser";
 const CONNECTED_TEXT = "[connected]";
 const DISCONNECTING_TEXT = "[disconnecting]";
 
@@ -31,6 +31,10 @@ const _entersFromText = fromEvent(_text, "keyup").pipe(
   filter((event) => event.key === "Enter")
 );
 const _clicksInDisconnect = fromEvent(_disconnect, "click");
+
+function initializeUser() {
+  _user.value = uuidv4().substring(0, 8);
+}
 
 function clearText() {
   _text.value = "";
@@ -87,10 +91,12 @@ function subscribeToClicks() {
 }
 
 function initialize() {
+  initializeUser();
+
   connect();
   subscribeToEnters();
   subscribeToClicks();
-  sendMessage({ user: NEW_USER, text: CONNECTED_TEXT });
+  sendMessage({ text: CONNECTED_TEXT });
 }
 
 initialize();
