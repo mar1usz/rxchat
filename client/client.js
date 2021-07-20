@@ -60,23 +60,18 @@ function disconnect() {
 }
 
 function subscribeToEnters() {
-  _entersFromText
-    .pipe(
-      throttleTime(100)
-    )
-    .subscribe(() => {
-      sendMessage();
-      clearText();
-    });
+  _entersFromText.pipe(throttleTime(100)).subscribe(() => {
+    sendMessage();
+    clearText();
+  });
 }
 
 function subscribeToClicks() {
-  _clicksInDisconnect
-    .subscribe(() => {
-      sendMessage({ text: DISCONNECTING_TEXT });
-      disconnect();
-      clearEverything();
-    });
+  _clicksInDisconnect.subscribe(() => {
+    sendMessage({ text: DISCONNECTING_TEXT });
+    disconnect();
+    clearEverything();
+  });
 }
 
 function clearText() {
