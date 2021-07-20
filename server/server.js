@@ -1,10 +1,6 @@
 const WebSocket = require("ws");
 const wss = new WebSocket.Server({ port: 8081 });
 
-wss.on("error", (err) => {
-  onServerError(err);
-});
-
 function onConnection(request) {
   console.log(request.rawHeaders);
 }
@@ -46,6 +42,10 @@ function initialize() {
     ws.on("error", (err) => {
       onClientError(err);
     });
+  });
+
+  wss.on("error", (err) => {
+    onServerError(err);
   });
 }
 
