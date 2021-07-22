@@ -80,9 +80,9 @@ function clearText() {
 }
 
 function clearEverything() {
-  _text.value = "";
-  _user.value = "";
   _chat.value = "";
+  _user.value = "";
+  _text.value = "";
 }
 
 initialize();
