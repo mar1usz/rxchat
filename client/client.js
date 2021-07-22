@@ -8,12 +8,12 @@ const NEW_USER = "newuser";
 const CONNECTED_TEXT = "[connected]";
 const DISCONNECTING_TEXT = "[disconnecting]";
 
-const _chat = document.querySelector("#chat");
-const _user = document.querySelector("#user");
-const _text = document.querySelector("#text");
-const _disconnect = document.querySelector("#disconnect");
+const chat = document.querySelector("#chat");
+const user = document.querySelector("#user");
+const text = document.querySelector("#text");
+const disconnectButton = document.querySelector("#disconnect");
 
-const _wsSubject = webSocket({
+const wsSubject = webSocket({
   url: URL,
   openObserver: {
     next(openEvent) {
@@ -27,10 +27,10 @@ const _wsSubject = webSocket({
   },
 });
 
-const _entersFromText = fromEvent(_text, "keyup").pipe(
+const entersFromText = fromEvent(text, "keyup").pipe(
   filter((event) => event.key === "Enter")
 );
-const _clicksInDisconnect = fromEvent(_disconnect, "click");
+const clicksInDisconnectButton = fromEvent(disconnectButton, "click");
 
 function initialize() {
   connect();
@@ -40,7 +40,7 @@ function initialize() {
 }
 
 function connect() {
-  _wsSubject
+  wsSubject
     .pipe(map((event) => `${event.date} ${event.user}: ${event.text}\n`))
     .subscribe(
       (msg) => (_chat.value += msg),
@@ -49,14 +49,14 @@ function connect() {
 }
 
 function subscribeToEnters() {
-  _entersFromText.pipe(throttleTime(100)).subscribe(() => {
+  entersFromText.pipe(throttleTime(100)).subscribe(() => {
     sendMessage();
     clearText();
   });
 }
 
 function subscribeToClicks() {
-  _clicksInDisconnect.subscribe(() => {
+  clicksInDisconnectButton.subscribe(() => {
     sendMessage({ text: DISCONNECTING_TEXT });
     disconnect();
     clearEverything();
@@ -65,24 +65,24 @@ function subscribeToClicks() {
 
 function sendMessage({
   date = getDateString(),
-  user = _user.value,
-  text = _text.value,
+  user = user.value,
+  text = text.value,
 } = {}) {
-  _wsSubject.next({ date, user, text });
+  wsSubject.next({ date, user, text });
 }
 
 function disconnect() {
-  _wsSubject.complete();
+  wsSubject.complete();
 }
 
 function clearText() {
-  _text.value = "";
+  text.value = "";
 }
 
 function clearEverything() {
-  _chat.value = "";
-  _user.value = "";
-  _text.value = "";
+  chat.value = "";
+  user.value = "";
+  text.value = "";
 }
 
 initialize();
