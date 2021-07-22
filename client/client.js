@@ -11,7 +11,7 @@ const DISCONNECTING_TEXT = "[disconnecting]";
 const chat = document.querySelector("#chat");
 const user = document.querySelector("#user");
 const text = document.querySelector("#text");
-const disconnectButton = document.querySelector("#disconnect");
+const disconnectButton = document.querySelector("#disconnectButton");
 
 const wsSubject = webSocket({
   url: URL,
