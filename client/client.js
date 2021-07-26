@@ -1,4 +1,4 @@
-import { getDateString } from "./json-utils.js";
+import { getDateString } from "./json-utilities.js";
 const { fromEvent } = rxjs;
 const { map, filter, throttleTime } = rxjs.operators;
 const { webSocket } = rxjs.webSocket;
