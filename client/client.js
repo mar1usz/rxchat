@@ -42,7 +42,7 @@ function connect() {
   webSocket
     .pipe(map((event) => `${event.date} ${event.user}: ${event.text}\n`))
     .subscribe(
-      (msg) => (_chat.value += msg),
+      (msg) => (chat.value += msg),
       (err) => console.error(err)
     );
 }
