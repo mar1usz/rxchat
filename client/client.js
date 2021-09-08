@@ -8,12 +8,12 @@ const NEW_USER = "newuser";
 const CONNECTED_TEXT = "[connected]";
 const DISCONNECTING_TEXT = "[disconnecting]";
 
-const _chat = document.querySelector("#chat");
-const _user = document.querySelector("#user");
-const _text = document.querySelector("#text");
-const _disconnectButton = document.querySelector("#disconnectButton");
+const chatEl = document.querySelector("#chat");
+const userEl = document.querySelector("#user");
+const textEl = document.querySelector("#text");
+const disconnectButtonEl = document.querySelector("#disconnectButton");
 
-const _subject = webSocket({
+const subject = webSocket({
   url: URL,
   openObserver: {
     next(openEvent) {
@@ -26,24 +26,24 @@ const _subject = webSocket({
     },
   },
 });
-const _entersFromText = fromEvent(_text, "keyup").pipe(
+const entersFromText = fromEvent(textEl, "keyup").pipe(
   filter((event) => event.key === "Enter")
 );
-const _clicksInDisconnectButton = fromEvent(_disconnectButton, "click");
+const clicksInDisconnectButton = fromEvent(disconnectButtonEl, "click");
 
-_subject
+subject
   .pipe(map((event) => `${event.date} ${event.user}: ${event.text}\n`))
   .subscribe(
-    (msg) => (_chat.value += msg),
+    (msg) => (chatEl.value += msg),
     (err) => console.error(err)
   );
 
-_entersFromText.pipe(throttleTime(100)).subscribe(() => {
+entersFromText.pipe(throttleTime(100)).subscribe(() => {
   sendMessage();
   clearText();
 });
 
-_clicksInDisconnectButton.subscribe(() => {
+clicksInDisconnectButton.subscribe(() => {
   sendMessage({ text: DISCONNECTING_TEXT });
   disconnect();
   clearEverything();
@@ -53,22 +53,22 @@ sendMessage({ user: NEW_USER, text: CONNECTED_TEXT });
 
 function sendMessage({
   date = getDateString(),
-  user = _user.value,
-  text = _text.value,
+  user = userEl.value,
+  text = textEl.value,
 } = {}) {
-  _subject.next({ date, user, text });
+  subject.next({ date, user, text });
 }
 
 function disconnect() {
-  _subject.complete();
+  subject.complete();
 }
 
 function clearText() {
-  _text.value = "";
+  textEl.value = "";
 }
 
 function clearEverything() {
-  _chat.value = "";
-  _user.value = "";
-  _text.value = "";
+  chatEl.value = "";
+  userEl.value = "";
+  textEl.value = "";
 }
