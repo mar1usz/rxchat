@@ -11,7 +11,7 @@ const DISCONNECTING_TEXT = "[disconnecting]";
 const chatEl = document.querySelector("#chat");
 const userEl = document.querySelector("#user");
 const textEl = document.querySelector("#text");
-const disconnectButtonEl = document.querySelector("#disconnectButton");
+const disconnectEl = document.querySelector("#disconnect");
 
 const wsSubject = webSocket({
   url: URL,
@@ -29,7 +29,7 @@ const wsSubject = webSocket({
 const entersFromText = fromEvent(textEl, "keyup").pipe(
   filter((event) => event.key === "Enter")
 );
-const clicksInDisconnectButton = fromEvent(disconnectButtonEl, "click");
+const clicksInDisconnectButton = fromEvent(disconnectEl, "click");
 
 wsSubject
   .pipe(map((event) => `${event.date} ${event.user}: ${event.text}\n`))
