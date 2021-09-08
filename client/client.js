@@ -13,7 +13,7 @@ const userEl = document.querySelector("#user");
 const textEl = document.querySelector("#text");
 const disconnectButtonEl = document.querySelector("#disconnectButton");
 
-const subject = webSocket({
+const wsSubject = webSocket({
   url: URL,
   openObserver: {
     next(openEvent) {
@@ -31,7 +31,7 @@ const entersFromText = fromEvent(textEl, "keyup").pipe(
 );
 const clicksInDisconnectButton = fromEvent(disconnectButtonEl, "click");
 
-subject
+wsSubject
   .pipe(map((event) => `${event.date} ${event.user}: ${event.text}\n`))
   .subscribe(
     (msg) => (chatEl.value += msg),
@@ -56,11 +56,11 @@ function sendMessage({
   user = userEl.value,
   text = textEl.value,
 } = {}) {
-  subject.next({ date, user, text });
+  wsSubject.next({ date, user, text });
 }
 
 function disconnect() {
-  subject.complete();
+  wsSubject.complete();
 }
 
 function clearText() {
