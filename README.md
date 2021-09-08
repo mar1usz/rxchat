@@ -1,5 +1,5 @@
 # RxChat
-A reactive WebSocket-based chat in JavaScript (Node.js and the browser) using ws and RxJS:<br/>![video](https://user-images.githubusercontent.com/62397363/99570211-e6ae0500-29d1-11eb-99c2-5bf7c1e4975e.gif)
+A reactive WebSocket-based chat in JavaScript (Node.js and the browser) using ws and RxJS:<br/>![video](https://user-images.githubusercontent.com/62397363/132553685-a31becaa-5c6d-44e8-a0f4-a0a2e64c9b80.gif)
 
 ## Prerequisites:
 - Node.js 16.9.0
