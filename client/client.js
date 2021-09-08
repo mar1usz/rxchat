@@ -8,10 +8,10 @@ const NEW_USER = "newuser";
 const CONNECTED_TEXT = "[connected]";
 const DISCONNECTING_TEXT = "[disconnecting]";
 
-const chatEl = document.querySelector("#chat");
-const userEl = document.querySelector("#user");
-const textEl = document.querySelector("#text");
-const disconnectEl = document.querySelector("#disconnect");
+const chatTextArea = document.querySelector("#chat");
+const userInput = document.querySelector("#user");
+const textInput = document.querySelector("#text");
+const disconnectButton = document.querySelector("#disconnect");
 
 const ws = webSocket({
   url: URL,
@@ -26,15 +26,15 @@ const ws = webSocket({
     },
   },
 });
-const entersFromText = fromEvent(textEl, "keyup").pipe(
+const entersFromText = fromEvent(textInput, "keyup").pipe(
   filter((event) => event.key === "Enter")
 );
-const clicksInDisconnect = fromEvent(disconnectEl, "click");
+const clicksInDisconnect = fromEvent(disconnectButton, "click");
 
 ws
   .pipe(map((event) => `${event.date} ${event.user}: ${event.text}\n`))
   .subscribe(
-    (msg) => (chatEl.value += msg),
+    (msg) => (chatTextArea.value += msg),
     (err) => console.error(err)
   );
 
@@ -53,8 +53,8 @@ sendMessage({ user: NEW_USER, text: CONNECTED_TEXT });
 
 function sendMessage({
   date = getDateString(),
-  user = userEl.value,
-  text = textEl.value,
+  user = userInput.value,
+  text = textInput.value,
 } = {}) {
   ws.next({ date, user, text });
 }
@@ -64,11 +64,11 @@ function disconnect() {
 }
 
 function clearText() {
-  textEl.value = "";
+  textInput.value = "";
 }
 
 function clearEverything() {
-  chatEl.value = "";
-  userEl.value = "";
-  textEl.value = "";
+  chatTextArea.value = "";
+  userInput.value = "";
+  textInput.value = "";
 }
