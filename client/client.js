@@ -45,12 +45,12 @@ clicksInDisconnect.subscribe(() => {
   clearEverything();
 });
 
-function sendMessage({
-  date = getDateString(),
-  user = userInput.value,
-  text = textInput.value,
-} = {}) {
-  webSocketSubject.next({ date, user, text });
+function sendMessage() {
+  webSocketSubject.next({
+    date: getDateString(),
+    user: userInput.value,
+    text: textInput.value
+  });
 }
 
 function disconnect() {
