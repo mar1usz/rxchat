@@ -12,6 +12,6 @@ A reactive WebSocket-based chat in JavaScript (Node.js and the browser) using ws
 ### live-server:
 - `npx live-server client`
 
-## Credits:
+## Acknowledgements:
 - ws by https://www.npmjs.com/package/ws (MIT license)
 - RxJS by https://www.npmjs.com/package/rxjs (Apache-2.0 license)
