@@ -3,15 +3,13 @@ const { fromEvent } = rxjs;
 const { map, filter, throttleTime } = rxjs.operators;
 const { webSocket } = rxjs.webSocket;
 
-const URL = "ws://localhost:8081";
-
 const chatTextArea = document.querySelector("#chat");
 const userInput = document.querySelector("#user");
 const textInput = document.querySelector("#text");
 const disconnectButton = document.querySelector("#disconnect");
 
 const webSocketSubject = webSocket({
-  url: URL,
+  url: "ws://localhost:8081",
   openObserver: {
     next(openEvent) {
       console.log(openEvent);
